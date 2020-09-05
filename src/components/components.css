@@ -1,0 +1,20 @@
+.text-blue {
+    color: #1b4e8f;
+}
+.bg-blue {
+    background-color: #1b4e8f;
+}
+.text-ltblue {
+    color: #70a4e6;
+}
+.no-bg {
+    background-color: transparent !important;
+}
+.btn-blue {
+    background-color: #1b4e8f;
+    color: white;
+}
+.btn-blue:hover {
+    background-color: #164682;
+    color: white;
+}
