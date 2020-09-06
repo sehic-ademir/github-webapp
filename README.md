@@ -45,11 +45,17 @@
 •	BrowserRouter
 2.	Routes
 •	exact path ="/" component={Home}
+
 •	exact path="/user/:id" component={UserContainer}
+
 •	exact path="/users/:id/:page" component={Users}
+
 •	exact path="/repository/:id/:page" component={Repositories}
+
 •	exact path="/users/repo/:id/:page" component={UserRepo}
+
 •	exact path="/users/followers/:id/:page" component={Followers}
+
 •	exact path="/users/following/:id/:page" component={Following}
 ## Repositories
 1.	componentDidMount() takes id from params and calls this.callRepos(query)
