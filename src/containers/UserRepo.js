@@ -19,8 +19,17 @@ class UserRepo extends Component {
             this.callRepos(this.props.match.params.id);
     }
     async callRepos(){
-        const res = await fetch(`https://api.github.com/users/${this.props.match.params.id}/repos?per_page=10&page=${this.props.match.params.page}`);
+        const token = localStorage.getItem('token');
+        const settings = {
+            method: 'GET',
+            headers: {
+                "Authorization": `token ${token}`,
+                "Accept": "application/vnd.github.v3+json",
+            }
+        }
+        const res = await fetch(`https://api.github.com/users/${this.props.match.params.id}/repos?per_page=10&page=${this.props.match.params.page}`, settings);
         const json = await res.json();
+        if(res.status !== 404)
         this.setState({
             repository: json,
             response: res
@@ -29,10 +38,18 @@ class UserRepo extends Component {
     }
     // this link does not have total count so we have to call repo again with full paging in order to receive total pages
     async callPages(){
-        const res = await fetch(`https://api.github.com/users/${this.props.match.params.id}`);
+        const token = localStorage.getItem('token');
+        const settings = {
+            method: 'GET',
+            headers: {
+                "Authorization": `token ${token}`,
+                "Accept": "application/vnd.github.v3+json",
+            }
+        }
+        const res = await fetch(`https://api.github.com/users/${this.props.match.params.id}`, settings);
         const json = await res.json();
         this.setState({
-            total_count: json.public_repos
+            total_count: json.public_repos || 0
         });
     }
 
@@ -41,11 +58,11 @@ class UserRepo extends Component {
         const total_count = this.state.total_count;
         return ( 
             <div>
-            { total_count > 0 ?  <div> { repository.map((repo) => 
+            { total_count === '' ? <Loader response={this.state.response} /> : total_count === 0 ? <div className="justify-content-center py-4"><h4>No results found.</h4></div> : repository ? <div> { repository.map((repo) => 
            <Repo  repo={repo} key={repo.id} /> )}
            <Paging  _component={'users/repo'} total_count={total_count} params={this.props.match.params} />
-            </div>
-             : this.state.response.status !== 200 ? <div className="justify-content-center py-4"><h4>No results found.</h4></div> : <Loader response={this.state.response}  /> }
+            </div> : ''
+             }
         </div>
          );
     }

@@ -6,7 +6,8 @@ class UserContainer extends Component {
         super(props);
         this.state = { 
             repository: '',
-            id: ''
+            id: '',
+            user: ''
          }
     }
     componentDidMount() {
@@ -15,20 +16,46 @@ class UserContainer extends Component {
             id: id
         });
         this.callRepos(id);
+        this.callUser(id);
+    }
+    async callUser(id){
+        const token = localStorage.getItem('token');
+        const settings = {
+            method: 'GET',
+            headers: {
+                "Authorization": `token ${token}`,
+                "Accept": "application/vnd.github.v3+json",
+            }
+        }
+        const res = await fetch(`https://api.github.com/users/${id}`, settings);
+        const json = await res.json();
+        if(res.status !== 404)
+            this.setState({
+                user: json
+            });
     }
     async callRepos(id){
-        const res = await fetch(`https://api.github.com/users/${id}/repos`);
+        const token = localStorage.getItem('token');
+        const settings = {
+            method: 'GET',
+            headers: {
+                "Authorization": `token ${token}`,
+                "Accept": "application/vnd.github.v3+json",
+            }
+        }
+        const res = await fetch(`https://api.github.com/users/${id}/repos`, settings);
         const json = await res.json();
+        if(res.status !== 404)
         this.setState({
             repository: json
         });
     }
     render() { 
         const repository = this.state.repository;
-        const id = this.state.id;
+        const user = this.state.user;
         return ( 
             <div>
-              {id ? <User id={id} key={id} /> : '' }
+              {user ? <User id={user.login} key={user.login} /> : <div className="justify-content-center py-4"><h4>No results found.</h4></div> }
                 
                 { repository ? <>
                     <h5>Repositories</h5>

@@ -1,12 +1,12 @@
 ### I 
-## created react app with npx create-react-app 
-## installed react-router-dom
-## installed bootstrap
+created react app with npx create-react-app 
+installed react-router-dom
+installed bootstrap
 ### II 
-## created routes for repository and user search
-## created classes for repository and users
+created routes for repository and user search
+created classes for repository and users
 ### III
-## 
+ 
 ### NPM README
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
