@@ -19,8 +19,11 @@
 ### Why GitHub REST API
 	Upon research of REST API’s suggested in e-mail, I have found out Facebook is switching to GraphQL API and as I already had experience with Twitter and Instagram API’s I knew they ask for request to be sent for receiving token for API. Github offers API for repositories and users and I had more to work with than Office 365.
 ###  Web Application Walkthrough
+# Github does not allow a lot of requests to be sent without token, so the best say is to click on follow on any user and insert token or go to /insert/token route and insert it there
 •	Created components and container folders to easily navigate between routes and reusable code
+
 •	Installed router with “npm install --save react-router-dom”
+
 •	Installed bootstrap with “npm install react-bootstrap bootstrap”
 
 # Component hierarchy
