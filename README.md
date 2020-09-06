@@ -24,18 +24,18 @@
 •	Installed bootstrap with “npm install react-bootstrap bootstrap”
 
 ## Component hierarchy
-#Users
+# Users
 •	User
-#Repositories
+# Repositories
 •	Repo
 # UserRepo
 •	Repo
 # UserContainer
 •	Repo
 •	User
-#Home 
+# Home 
 •	UserContainer
-#Following & Followers
+# Following & Followers
 •	User
 
 
