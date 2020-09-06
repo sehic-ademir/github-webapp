@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import TokenInput from './TokenInput';
 import './components.css';
 import Loader from './loader';
 class User extends Component {
@@ -52,8 +51,10 @@ class User extends Component {
         this.setState({
             res_status: res.status
         });
-        if(res.status === 401)
+        if(res.status === 401) {
+            alert('No token submitted');
             return;
+        }
         this.setState({
             following: true,
             res_status: res.status
@@ -119,7 +120,6 @@ class User extends Component {
             <>
             {user ? 
         <div className="card col-xl-7 col-lg-10 col-md-10 col-12 px-0 mx-auto overflow-hidden my-4">
-        { this.state.res_status === 401 ? <TokenInput/> : '' }
            <div className="col-lg-6 mx-auto col-12"><img className="card-img-top w-25 mx-auto mt-4 rounded-circle" src={user.avatar_url} alt={user.avatar_url} /></div> 
             <div className="card-body">
                 <Link to={`/user/${user.login}`} className="h5 card-title text-blue my-2">{user.name} ({user.login})</Link>

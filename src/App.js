@@ -10,7 +10,6 @@ import Followers from './containers/Followers';
 import Following from './containers/Following';
 import UserContainer from './containers/UserContainer';
 import Home from './containers/Home';
-import Token from './containers/Token';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +30,6 @@ class App extends Component {
             <Route exact path="/users/repo/:id/:page" component={UserRepo}></Route>
             <Route exact path="/users/followers/:id/:page" component={Followers}></Route>
             <Route exact path="/users/following/:id/:page" component={Following}></Route>
-            <Route exact path="/insert/token" component={Token}></Route>
           </Switch>
         </BrowserRouter>
     </div>

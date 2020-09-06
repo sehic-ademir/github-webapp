@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import TokenInput from './TokenInput';
 
 class SearchBox extends Component {
     constructor(props) {
@@ -37,7 +38,7 @@ class SearchBox extends Component {
                     <Link to="/"><img src="/logo.png" className="img-fluid w-25" alt="logo" /></Link>
                 </div>
                 <div className="col-xl-3 col-lg-5 col-md-3 my-2 my-lg-0">
-                    <Link to="/insert/token"><button className="btn btn-light">No results? Enter your token here!</button></Link>
+                    <TokenInput/>
                 </div>
             <form className="col-lg-4 mx-auto mx-md-0 ml-md-auto offset-md-4 col-12 row text-center" >
                 <select onChange={this.handleChange} name="searchPrefix" className="form-control col-xl-4 col-lg-3 col-12 mb-2 mb-md-0 text-capitalize mx-auto">
