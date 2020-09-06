@@ -44,6 +44,7 @@
 1.	Components
 
 •	BrowserRouter
+
 2.	Routes
 
 •	exact path ="/" component={Home}
