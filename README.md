@@ -23,24 +23,24 @@
 •	Installed router with “npm install --save react-router-dom”
 •	Installed bootstrap with “npm install react-bootstrap bootstrap”
 
-## Component hierarchy
-# Users
+# Component hierarchy
+### Users
 •	User
-# Repositories
+### Repositories
 •	Repo
-# UserRepo
+### UserRepo
 •	Repo
-# UserContainer
+### UserContainer
 •	Repo
 •	User
-# Home 
+### Home 
 •	UserContainer
 # Following & Followers
 •	User
 
 
-## Containers
-# App.js 
+# Containers
+## App.js 
 1.	Components
 •	BrowserRouter
 2.	Routes
@@ -51,7 +51,7 @@
 •	exact path="/users/repo/:id/:page" component={UserRepo}
 •	exact path="/users/followers/:id/:page" component={Followers}
 •	exact path="/users/following/:id/:page" component={Following}
-# Repositories
+## Repositories
 1.	componentDidMount() takes id from params and calls this.callRepos(query)
 2.	async callRepos(query) fetches repositories by keyword(s) from input and sets state for repos, response and total_count
 3.	If total_count is 0, it will return HTML with 'No results found'
@@ -60,14 +60,14 @@
 6.	componentDidUpdate(prevProps, prevState) will call this.callRepos(query) in case props have been changed
 
 
-# Users
+## Users
 1.	componentDidMount() will call this.callUsers()
 2.	async callUsers() fetches users by keyword(s) from input and sets state for users, response and total_count
 3.	If total_count is 0, it will return HTML with 'No results found'
 4.	If total_count is more than 0, it will return map with class User which will present data dynamically with all users containing keyword, 10 per page, with paging component in bottom
 5.	If total_count is undefined, it will return Loader component
 6.	componentDidUpdate(prevProps, prevState) will call this.callUsers() in case props have been changed
-# Following & Followers
+## Following & Followers
 		Both classes are same except for REST API call
 1.	componentDidMount() will call this.callUsers()
 2.	async callUsers() fetches users' followers/following with 10 per page and sets state for users and response and calls this.callPages() since this api route does not have total_count
@@ -76,7 +76,7 @@
 5.	If total_count is more than 0, it will return map with class User which will present data dynamically with all users from state.users, 10 per page, with paging component in bottom
 6.	If total_count is undefined, it will return Loader component
 7.	componentDidUpdate(prevProps, prevState) will call this.callUsers() in case props have been changed
-# UserRepo
+## UserRepo
 1.	componentDidMount()calls this.callRepos()
 2.	async callRepos() fetches repositories by params provided and sets state for repos, response and calls this.callPages() since this api route does not have total_count
 3.	async callPages() calls repositories again but without query params and sets state for total_count
@@ -84,27 +84,27 @@
 5.	If total_count is more than 0, it will return map with class Repo which will present data dynamically with all repositories from state.repos, 10 per page, with paging component in bottom
 6.	If total_count is undefined, it will return Loader component
 7.	componentDidUpdate(prevProps, prevState) will call this.callRepos() in case props have been changed
-# UserContainer
+## UserContainer
 1.	componentDidMount() checks if UserContainer is loaded with props or params and calls this.callRepos(id) and this.callUser(id) accordingly
 2.	async callUser(id) fetches user by id and sets state to user
 3.	async callRepos(id) fetches all repositories from user and sets state to repository
-# Home 
+## Home 
 1.	returns <UserContainer /> with my github account id as props :)
 
-## Components
-# Repo
+# Components
+## Repo
 1.	Takes props and presents data
 2.	Onclick copies github repository ssh and saves changes to json file
-# User
+## User
 1.	async callUser() fetches user with id from props and presents it in HTML
 2.	async checkIfFollowing() sends requests to check if user with token is following searched user
 3.	async callFollow() & async callUnfollow() follows and unfollows user respectively and calls this.saveChanges(changes)
 4.	async saveChanges(changes) sends data to backend and its saved in json format
-# Searchbox 
+## Searchbox 
 1.	Takes input values from form and navigates through routes with Link from router
-# TokenInput
+## TokenInput
 1.	Takes token from form and saves it in localStorage
-# Paging
+## Paging
 2.	Takes props and presents paging in bottom of page
 
 
