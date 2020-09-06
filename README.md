@@ -3,13 +3,15 @@
 1.	Open folder you want to clone project to.
 2.	Open cmd or git bash in that folder
 3.	Type in “git init”
-4.	Then “git clone git@github.com:sehic-ademir/github-webapp.git”
-5.	Then “cd github-webapp”
+4.	"git clone git@github.com:sehic-ademir/github-webapp.git”
+5.	“cd github-webapp”
 6.	When you open github-webapp folder, type in npm install and then npm start
 7.	The application is ready to go
-### How to install backend
-1.	Follow instructions from the above
-2.	Change git clone link to git@github.com:sehic-ademir/github-webapp-backend.git
+### How to install and deploy backend
+1.	Open folder you want to clone project to.
+2.	Open cmd or git bash in that folder
+3.	Type in “git init”
+2.	"git clone git@github.com:sehic-ademir/github-webapp-backend.git"
 3.	“cd github-webapp-backend”
 4.	When you open github-webapp-backend folder, type in npm install and then npm start
 5.	The application is ready to go
