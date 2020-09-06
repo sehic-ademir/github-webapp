@@ -42,8 +42,10 @@
 # Containers
 ## App.js 
 1.	Components
+
 •	BrowserRouter
 2.	Routes
+
 •	exact path ="/" component={Home}
 
 •	exact path="/user/:id" component={UserContainer}
