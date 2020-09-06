@@ -25,8 +25,20 @@ class Repositories extends Component {
     }
     async callRepos(query) {
         window.scrollTo(0, 0);
-        const res = await fetch('https://api.github.com/search/repositories?q='+query+'&per_page=10&page=' + this.props.match.params.page);
+        const token = localStorage.getItem('token');
+        const settings = {
+            method: 'GET',
+            headers: {
+                "Authorization": `token ${token}`,
+                "Accept": "application/vnd.github.v3+json",
+            }
+        }
+        let res;
+        if(token)
+            res = await fetch(`https://api.github.com/search/repositories?q='${query}&per_page=10&page=${this.props.match.params.page}`, settings);
+        else res = await fetch(`https://api.github.com/search/repositories?q=${query}&per_page=10&page=${this.props.match.params.page}`);
         const json = await res.json();
+        console.log(json);
         this.setState({
             repos: json,
             response: res,

@@ -23,14 +23,25 @@ class Users extends Component {
             
     }
     async callUsers(){
-    const query = this.props.match.params.id;
-    const res = await fetch(`https://api.github.com/search/users?q=${query}&per_page=10&page=${this.props.match.params.page}`);
-    const json = await res.json();
-    this.setState({
-        users: json,
-        response: res,
-        total_count: json.total_count
-    });
+        const token = localStorage.getItem('token');
+        const settings = {
+            method: 'GET',
+            headers: {
+                "Authorization": `token ${token}`,
+                "Accept": "application/vnd.github.v3+json",
+            }
+        }
+        const query = this.props.match.params.id;
+        let res;
+        if(token)
+            res = await fetch(`https://api.github.com/search/users?q=${query}&per_page=10&page=${this.props.match.params.page}`, settings);
+        else res = await fetch(`https://api.github.com/search/users?q=${query}&per_page=10&page=${this.props.match.params.page}`);
+        const json = await res.json();
+        this.setState({
+            users: json,
+            response: res,
+            total_count: json.total_count
+        });
     }
     render() { 
         const users = this.state.users.items;

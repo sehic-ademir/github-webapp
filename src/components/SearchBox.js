@@ -7,8 +7,8 @@ class SearchBox extends Component {
         this.state = { 
             search: '',
             searchPrefixOptions: ['repository', 'users'],
-            searchPrefix: ''
-         }
+            searchPrefix: ''         
+        }
          this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount() {
@@ -22,6 +22,7 @@ class SearchBox extends Component {
             [e.target.name]: e.target.value
         });
     }
+    
     render() { 
         const searchValue = this.state.search;
         const searchPrefix = this.state.searchPrefix;
@@ -35,7 +36,7 @@ class SearchBox extends Component {
                 <div className="col-xl-1 col-lg-2 col-md-4 col-4 mx-auto mx-lg-0 mb-3 mb-lg-0">
                     <Link to="/"><img src="/logo.png" className="img-fluid w-25" alt="logo" /></Link>
                 </div>
-            <form className="col-lg-4 mx-auto mx-md-0 ml-md-auto offset-md-7 col-12 row text-center" >
+            <form className="col-lg-4 mx-auto mx-md-0 ml-md-auto offset-md-4 col-12 row text-center" >
                 <select onChange={this.handleChange} name="searchPrefix" className="form-control col-lg-4 col-12 mb-2 mb-md-0 text-capitalize mx-auto">
                     { searchPrefixOptions.map((searchPrefixOption) =>
                         <option key={searchPrefixOption} value={searchPrefixOption} >{searchPrefixOption}</option>

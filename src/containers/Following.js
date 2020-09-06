@@ -32,7 +32,10 @@ class Following extends Component {
         }
     }
     const query = this.props.match.params.id;
-    const res = await fetch(`https://api.github.com/users/${query}/following?per_page=10&page=${this.props.match.params.page}`, settings);
+    let res;
+    if(token)
+        res = await fetch(`https://api.github.com/users/${query}/following?per_page=10&page=${this.props.match.params.page}`, settings);
+    else res = await fetch(`https://api.github.com/users/${query}/following?per_page=10&page=${this.props.match.params.page}`);
     const json = await res.json();
     if(res.status !== 403 && res.status !== 404)
     this.setState({
@@ -51,7 +54,10 @@ class Following extends Component {
             }
         }
         const query = this.props.match.params.id;
-        const res = await fetch(`https://api.github.com/users/${query}/following`, settings);
+        let res;
+        if(token)
+            res = await fetch(`https://api.github.com/users/${query}/following`, settings);
+        else res = await fetch(`https://api.github.com/users/${query}/following`);
         const json = await res.json();
         this.setState({
             total_count: json.length || 0

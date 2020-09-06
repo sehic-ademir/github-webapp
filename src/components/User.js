@@ -29,7 +29,11 @@ class User extends Component {
                 "Accept": "application/vnd.github.v3+json",
             }
         }
-        const res = await fetch(`https://api.github.com/users/${this.props.id}`, settings);
+        let res;
+        if(token)
+            res = await fetch(`https://api.github.com/users/${this.props.id}`, settings);
+        else res = await fetch(`https://api.github.com/users/${this.props.id}`);
+        
         const json = await res.json();
         this.setState({
             user: json

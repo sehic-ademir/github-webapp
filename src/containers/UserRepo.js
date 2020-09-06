@@ -27,7 +27,10 @@ class UserRepo extends Component {
                 "Accept": "application/vnd.github.v3+json",
             }
         }
-        const res = await fetch(`https://api.github.com/users/${this.props.match.params.id}/repos?per_page=10&page=${this.props.match.params.page}`, settings);
+        let res;
+        if(token)
+            res = await fetch(`https://api.github.com/users/${this.props.match.params.id}/repos?per_page=10&page=${this.props.match.params.page}`, settings);
+        else res = await fetch(`https://api.github.com/users/${this.props.match.params.id}/repos?per_page=10&page=${this.props.match.params.page}`);
         const json = await res.json();
         if(res.status !== 404)
         this.setState({
@@ -36,7 +39,7 @@ class UserRepo extends Component {
         });
         this.callPages();
     }
-    // this link does not have total count so we have to call repo again with full paging in order to receive total pages
+    // the link above does not have total_count so we have to call repo again with full paging in order to receive total pages
     async callPages(){
         const token = localStorage.getItem('token');
         const settings = {
@@ -46,7 +49,10 @@ class UserRepo extends Component {
                 "Accept": "application/vnd.github.v3+json",
             }
         }
-        const res = await fetch(`https://api.github.com/users/${this.props.match.params.id}`, settings);
+        let res;
+        if(token)
+            res = await fetch(`https://api.github.com/users/${this.props.match.params.id}`, settings);
+        else res = await fetch(`https://api.github.com/users/${this.props.match.params.id}`);
         const json = await res.json();
         this.setState({
             total_count: json.public_repos || 0

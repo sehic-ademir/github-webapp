@@ -27,7 +27,10 @@ class UserContainer extends Component {
                 "Accept": "application/vnd.github.v3+json",
             }
         }
-        const res = await fetch(`https://api.github.com/users/${id}`, settings);
+        let res;
+        if(token)
+            res = await fetch(`https://api.github.com/users/${id}`, settings);
+        else res = await fetch(`https://api.github.com/users/${id}`);
         const json = await res.json();
         if(res.status !== 404)
             this.setState({
@@ -43,9 +46,12 @@ class UserContainer extends Component {
                 "Accept": "application/vnd.github.v3+json",
             }
         }
-        const res = await fetch(`https://api.github.com/users/${id}/repos`, settings);
+        let res;
+        if(token)
+            res = await fetch(`https://api.github.com/users/${id}/repos`, settings);
+        else res = await fetch(`https://api.github.com/users/${id}/repos`);
         const json = await res.json();
-        if(res.status !== 404)
+        if(res.status !== 404 && res.status !== 403)
         this.setState({
             repository: json
         });
