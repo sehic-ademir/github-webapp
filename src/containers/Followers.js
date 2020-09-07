@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Loader from '../components/loader';
 import User from '../components/User';
 import Paging from '../components/paging';
+import { GithubRequests } from '../components/helpers/GithubRequests';
 class Followers extends Component {
     constructor(props) {
         super(props);
@@ -23,19 +24,13 @@ class Followers extends Component {
             
     }
     async callUsers(){
-    const token = localStorage.getItem('token');
-    const settings = {
-        method: 'GET',
-        headers: {
-            "Authorization": `token ${token}`,
-            "Accept": "application/vnd.github.v3+json",
-        }
-    }
     const query = this.props.match.params.id;
-    let res;
-    if(token)
-        res = await fetch(`https://api.github.com/users/${query}/followers?per_page=10&page=${this.props.match.params.page}`, settings);
-    else res = await fetch(`https://api.github.com/users/${query}/followers?per_page=10&page=${this.props.match.params.page}`);
+    let params = {
+        url: 'user-followers',
+        keyword: query,
+        page: this.props.match.params.page
+    };
+    const res = await GithubRequests(params);
     const json = await res.json();
     if(res.status !== 403 && res.status !== 404)
     this.setState({
@@ -45,19 +40,13 @@ class Followers extends Component {
     this.callPages();
     }
     async callPages(){
-        const token = localStorage.getItem('token');
-        const settings = {
-            method: 'GET',
-            headers: {
-                "Authorization": `token ${token}`,
-                "Accept": "application/vnd.github.v3+json",
-            }
-        }
         const query = this.props.match.params.id;
-        let res;
-        if(token)
-            res = await fetch(`https://api.github.com/users/${query}/followers`, settings);
-        else res = await fetch(`https://api.github.com/users/${query}/followers`);
+        let params = {
+            url: 'user-followers',
+            keyword: query,
+            page: ''
+        };
+        const res = await GithubRequests(params);
         const json = await res.json();
         this.setState({
             total_count: json.length || 0

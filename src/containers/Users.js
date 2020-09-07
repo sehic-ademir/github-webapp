@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import User from '../components/User';
 import Loader from '../components/loader';
 import Paging from '../components/paging';
+import { GithubRequests } from '../components/helpers/GithubRequests';
 class Users extends Component {
     constructor(props) {
         super(props);
@@ -19,23 +20,16 @@ class Users extends Component {
             this.callUsers();
 
         if(prevProps.match.params.page !== this.props.match.params.page)
-        this.callUsers  ();
-            
+            this.callUsers();  
     }
     async callUsers(){
-        const token = localStorage.getItem('token');
-        const settings = {
-            method: 'GET',
-            headers: {
-                "Authorization": `token ${token}`,
-                "Accept": "application/vnd.github.v3+json",
-            }
-        }
         const query = this.props.match.params.id;
-        let res;
-        if(token)
-            res = await fetch(`https://api.github.com/search/users?q=${query}&per_page=10&page=${this.props.match.params.page}`, settings);
-        else res = await fetch(`https://api.github.com/search/users?q=${query}&per_page=10&page=${this.props.match.params.page}`);
+        let params = {
+            url: 'users',
+            keyword: query,
+            page: this.props.match.params.page
+        };
+        const res = await GithubRequests(params);
         const json = await res.json();
         this.setState({
             users: json,
@@ -51,14 +45,14 @@ class Users extends Component {
                 <div className=" py-4 justify-content-center">
                 { total_count === ''  ? 
                 <Loader className="justify-content-center" response={this.state.response}  /> :  total_count === 0 ? <div className="col-12 justify-content-center py-4"><h4>No results found.</h4></div> : users ?
-                <div>
-              {  users.map((user) => 
-                    <User id={user.login} key={user.login} />
-                    )}
-                      <Paging  _component={'users'} total_count={this.state.users.total_count} params={this.props.match.params} />
-               
-                </div>   : ''}
-            </div>
+                    <div>
+                        {  users.map((user) => 
+                        <User id={user.login} key={user.login} />
+                        )}
+                        <Paging  _component={'users'} total_count={this.state.users.total_count} params={this.props.match.params} />
+                
+                    </div>   : ''}
+                </div>
             </div>
          );
     }

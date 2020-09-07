@@ -15,22 +15,20 @@ class App extends Component {
     super(props);
     this.state = {  }
   }
-
-
   render() { 
     return ( 
       <div className="App">
         <BrowserRouter>
-        <SearchBox/>
-          <Switch>
-            <Route exact path="/" component={Home}></Route>
-            <Route exact path="/user/:id" component={UserContainer}></Route>
-            <Route exact path="/users/:id/:page" component={Users}></Route>
-            <Route exact path="/repository/:id/:page" component={Repositories}></Route>
-            <Route exact path="/users/repo/:id/:page" component={UserRepo}></Route>
-            <Route exact path="/users/followers/:id/:page" component={Followers}></Route>
-            <Route exact path="/users/following/:id/:page" component={Following}></Route>
-          </Switch>
+          <SearchBox/>
+            <Switch>
+              <Route exact path="/" component={Home}></Route>
+              <Route exact path="/user/:id" component={UserContainer}></Route>
+              <Route exact path="/users/:id/:page" component={Users}></Route>
+              <Route exact path="/repository/:id/:page" component={Repositories}></Route>
+              <Route exact path="/users/repo/:id/:page" component={UserRepo}></Route>
+              <Route exact path="/users/followers/:id/:page" component={Followers}></Route>
+              <Route exact path="/users/following/:id/:page" component={Following}></Route>
+            </Switch>
         </BrowserRouter>
     </div>
      );

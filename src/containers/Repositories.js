@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Repo from '../components/Repo';
 import Loader from '../components/loader';
 import Paging from '../components/paging';
+import { GithubRequests } from '../components/helpers/GithubRequests';
 class Repositories extends Component {
     constructor(props) {
         super(props);
@@ -25,20 +26,13 @@ class Repositories extends Component {
     }
     async callRepos(query) {
         window.scrollTo(0, 0);
-        const token = localStorage.getItem('token');
-        const settings = {
-            method: 'GET',
-            headers: {
-                "Authorization": `token ${token}`,
-                "Accept": "application/vnd.github.v3+json",
-            }
-        }
-        let res;
-        if(token)
-            res = await fetch(`https://api.github.com/search/repositories?q='${query}&per_page=10&page=${this.props.match.params.page}`, settings);
-        else res = await fetch(`https://api.github.com/search/repositories?q=${query}&per_page=10&page=${this.props.match.params.page}`);
+        let params = {
+            url: 'repositories',
+            keyword: this.props.match.params.id,
+            page: this.props.match.params.page
+        };
+        const res = await GithubRequests(params);
         const json = await res.json();
-        console.log(json);
         this.setState({
             repos: json,
             response: res,

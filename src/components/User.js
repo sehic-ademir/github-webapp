@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './components.css';
 import Loader from './loader';
+import { GithubRequests } from './helpers/GithubRequests';
 class User extends Component {
     constructor(props) {
         super(props);
@@ -20,34 +21,24 @@ class User extends Component {
         this.checkIfFollowing();
     }
     async callUser(){
-        const token = localStorage.getItem('token');
-        const settings = {
-            method: 'GET',
-            headers: {
-                "Authorization": `token ${token}`,
-                "Accept": "application/vnd.github.v3+json",
-            }
-        }
-        let res;
-        if(token)
-            res = await fetch(`https://api.github.com/users/${this.props.id}`, settings);
-        else res = await fetch(`https://api.github.com/users/${this.props.id}`);
-        
+        let params = {
+            url: 'user',
+            keyword: this.props.id,
+            page: ''
+        };
+        const res = await GithubRequests(params);
         const json = await res.json();
         this.setState({
             user: json
         });
     }
     async callFollow(){
-        const token = localStorage.getItem('token');
-        const settings = {
-            method: 'PUT',
-            headers: {
-                "Authorization": `token ${token}`,
-                "Accept": "application/vnd.github.v3+json",
-            }
-        }
-        const res = await fetch(`https://api.github.com/user/following/${this.props.id}`, settings);
+        let params = {
+            url: 'user-follow',
+            keyword: this.props.id,
+            page: ''
+        };
+        const res = await GithubRequests(params);
         this.setState({
             res_status: res.status
         });
@@ -65,16 +56,13 @@ class User extends Component {
         };
         this.saveChanges(changes);
     }
-    async callUnfollow(e){
-        const token = localStorage.getItem('token');
-        const settings = {
-            method: 'DELETE',
-            headers: {
-                "Authorization": `token ${token}`,
-                "Accept": "application/vnd.github.v3+json",
-            }
-        }
-        const res = await fetch(`https://api.github.com/user/following/${this.props.id}`, settings);
+    async callUnfollow(){
+        let params = {
+            url: 'user-unfollow',
+            keyword: this.props.id,
+            page: ''
+        };
+        const res = await GithubRequests(params);
         this.setState({
             following: false,
             res_status: res.status,
@@ -86,15 +74,13 @@ class User extends Component {
         this.saveChanges(changes);
     }
     async checkIfFollowing(){
-        const token = localStorage.getItem('token');
-        const settings = {
-            method: 'GET',
-            headers: {
-                "Authorization": `token ${token}`,
-                "Accept": "application/vnd.github.v3+json",
-            }
-        }
-        const res = await fetch(`https://api.github.com/user/following/${this.props.id}`, settings);
+        let params = {
+            url: 'auth-user-following',
+            keyword: this.props.id,
+            page: ''
+        };
+        const res = await GithubRequests(params);
+        console.log(res);
         if(res.status === 204)
             this.setState({
                 following: true
