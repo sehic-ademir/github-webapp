@@ -26,7 +26,7 @@ class Following extends Component {
     async callUsers(){
     const query = this.props.match.params.id;
     let params = {
-        url: 'user-followers',
+        url: 'user-following',
         keyword: query,
         page: this.props.match.params.page
     };
@@ -42,7 +42,7 @@ class Following extends Component {
     async callPages(){
         const query = this.props.match.params.id;
         let params = {
-            url: 'user-followers',
+            url: 'user-following',
             keyword: query,
             page: ''
         };
