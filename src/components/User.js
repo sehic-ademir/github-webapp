@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './components.css';
-import Loader from './loader';
-import { GithubRequests } from './helpers/GithubRequests';
+import { getUser, userFollow, userUnfollow, authUserFollowing } from './helpers/GithubRequests';
 class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            token: `token ${localStorage.getItem('key')}`,
             user: '',
             following: false,
             res_status: ''
@@ -21,24 +19,14 @@ class User extends Component {
         this.checkIfFollowing();
     }
     async callUser(){
-        let params = {
-            url: 'user',
-            keyword: this.props.id,
-            page: ''
-        };
-        const res = await GithubRequests(params);
+        const res = await getUser(this.props.id);
         const json = await res.json();
         this.setState({
             user: json
         });
     }
     async callFollow(){
-        let params = {
-            url: 'user-follow',
-            keyword: this.props.id,
-            page: ''
-        };
-        const res = await GithubRequests(params);
+        const res = await userFollow(this.props.id);
         this.setState({
             res_status: res.status
         });
@@ -57,12 +45,7 @@ class User extends Component {
         this.saveChanges(changes);
     }
     async callUnfollow(){
-        let params = {
-            url: 'user-unfollow',
-            keyword: this.props.id,
-            page: ''
-        };
-        const res = await GithubRequests(params);
+        const res = await userUnfollow(this.props.id);
         this.setState({
             following: false,
             res_status: res.status,
@@ -74,12 +57,7 @@ class User extends Component {
         this.saveChanges(changes);
     }
     async checkIfFollowing(){
-        let params = {
-            url: 'auth-user-following',
-            keyword: this.props.id,
-            page: ''
-        };
-        const res = await GithubRequests(params);
+        const res = await authUserFollowing(this.props.id);
         console.log(res);
         if(res.status === 204)
             this.setState({
@@ -104,35 +82,46 @@ class User extends Component {
 
         return (
             <>
-            {user ? 
-        <div className="card col-xl-7 col-lg-10 col-md-10 col-12 px-0 mx-auto overflow-hidden my-4">
-           <div className="col-lg-6 mx-auto col-12"><img className="card-img-top w-25 mx-auto mt-4 rounded-circle" src={user.avatar_url} alt={user.avatar_url} /></div> 
-            <div className="card-body">
-                <Link to={`/user/${user.login}`} className="h5 card-title text-blue my-2">{user.name} ({user.login})</Link>
-                <h6 className="card-subtitle mb-2 text-muted">{user.location}</h6>
-                <p className="card-text">{user.bio}</p>
-                <div className="my-2">  
-                    { following ?  <button className="btn btn-danger ml-auto mr-2" onClick={this.callUnfollow}>Unfollow</button>
-                   :
-                    <button className="btn btn-primary align-self-center ml-auto mr-2"  onClick={this.callFollow}>Follow</button>
-                    }
+              {user ?   <div class="card my-2">
+                    <div className="col-xl-2 col-lg-4 col-md-5 col-6 mx-auto my-4">
+                    <Link to={`/user/${user.login}`}><img class="card-img-top rounded-circle img-fluid" src={user.avatar_url} alt={`${user.login} avatar`}/></Link>
                     </div>
-            </div>
-            <div className="card-footer bg-blue text-light row no-gutters">
-                <Link className="col-4 text-light" to={`/users/followers/${user.login}/1`}>
-                    <p className="h4">{user.followers}</p>
-                    <p className="mb-0 text-ltblue">Followers</p>
-                </Link>
-                <Link className="col-4 text-light" to={`/users/following/${user.login}/1`}>
-                    <p className="h4">{user.following}</p>
-                    <p className="mb-0 text-ltblue">Following</p>
-                </Link>
-                <Link className="col-4 text-light" to={`/users/repo/${user.login}/1`}>
-                    <p className="h4">{user.public_repos}</p>
-                    <p className="mb-0 text-ltblue">Repositories</p>
-                </Link>
+                    <div class="card-body">
+                    <Link to={`/user/${user.login}`}><h5 class="card-title">{user.name} ({user.login})</h5></Link>
+                        <h6 class="card-subtitle mb-2 text-muted">{user.location}</h6>
+                        <p class="card-text">{user.bio}</p>
+                        <div className="my-2">
+                            { following ?  
+                            <button className="btn btn-danger" onClick={this.callUnfollow}>Unfollow</button>
+                            :
+                            <button className="btn btn-primary"  onClick={this.callFollow}>Follow</button>
+                            }
+                        </div>
+                    </div>
+                    <div className="card-footer bg-blue text-light">
+                        <div className="row no-gutters">
+                            <div className="col-4">
+                                <Link className="text-light" to={`/users/followers/${user.login}/1`}>
+                                    <span className="h4">{user.followers}</span> <br/>
+                                    <span className="mb-0 text-ltblue">Followers</span>
+                                </Link>
+                            </div>
+                            <div className="col-4">
+                                <Link className="text-light" to={`/users/following/${user.login}/1`}>
+                                    <span className="h4">{user.following}</span> <br/>
+                                    <span className="mb-0 text-ltblue">Following</span>
+                                </Link>
+                            </div>
+                            <div className="col-4">
+                                <Link className="text-light" to={`/users/repo/${user.login}/1`}>
+                                    <span className="h4">{user.public_repos}</span> <br/>
+                                    <span className="mb-0 text-ltblue">Repositories</span>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-        </div> : <Loader /> } 
+   : '' }
         </>
          );
     }

@@ -44,7 +44,7 @@ class Repo extends Component {
         var thedate = new Date(Date.parse(repo.updated_at));
             thedate = thedate.toDateString();
         return ( 
-            <div className="card col-xl-7 col-lg-10 col-md-10 col-12 text-left px-0 mx-auto my-2">
+            <div className="card text-left px-0 mx-auto my-2">
             <h5 className="card-header"><a href={repo.html_url} target="_blank" rel="noopener noreferrer" >{repo.full_name}</a></h5>
             <div className="card-body">
                 <h5 className="card-title">Owner: <Link to={`/user/${repo.owner.login}`}>{repo.owner.login}</Link></h5>

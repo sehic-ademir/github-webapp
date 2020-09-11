@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Loader from '../components/loader';
 import User from '../components/User';
 import Paging from '../components/paging';
-import { GithubRequests } from '../components/helpers/GithubRequests';
+import { userFollowing } from '../components/helpers/GithubRequests';
 class Following extends Component {
     constructor(props) {
         super(props);
@@ -18,35 +18,23 @@ class Following extends Component {
     componentDidUpdate(prevProps, prevState) {
         if(prevProps.match.params.id !== this.props.match.params.id)
             this.callUsers();
-
         if(prevProps.match.params.page !== this.props.match.params.page)
-        this.callUsers  ();
-            
+            this.callUsers();
     }
     async callUsers(){
-    const query = this.props.match.params.id;
-    let params = {
-        url: 'user-following',
-        keyword: query,
-        page: this.props.match.params.page
-    };
-    const res = await GithubRequests(params);
-    const json = await res.json();
-    if(res.status !== 403 && res.status !== 404)
-    this.setState({
-        users: json,
-        response: res
-    });
-    this.callPages();
+        const query = this.props.match.params.id;
+        const res = await userFollowing(query);
+        const json = await res.json();
+        if(res.status !== 403 && res.status !== 404)
+            this.setState({
+                users: json,
+                response: res
+            });
+        this.callPages();
     }
     async callPages(){
         const query = this.props.match.params.id;
-        let params = {
-            url: 'user-following',
-            keyword: query,
-            page: ''
-        };
-        const res = await GithubRequests(params);
+        const res = await userFollowing(query);
         const json = await res.json();
         this.setState({
             total_count: json.length || 0
